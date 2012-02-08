@@ -227,11 +227,9 @@ else
 # Emscripten-specific change
 $(INCHI_LIB_PATHNAME).js: $(INCHI_LIB_OBJS)
 	$(SHARED_LINK) $(SHARED_LINK_PARM) -o \
-	$(INCHI_LIB_PATHNAME).js$ \
+	$(INCHI_LIB_PATHNAME).js \
 	$(INCHI_LIB_OBJS) \
 	-Wl$(LINUX_MAP)$(LINUX_Z_RELRO),-soname,$(INCHI_LIB_NAME).js
-	ln -fs $(INCHI_LIB_NAME).js \
-	$(INCHI_LIB_PATHNAME).js
 
 endif
 
