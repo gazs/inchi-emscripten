@@ -1,5 +1,12 @@
+# Emscripten-specific options
+EMCC=/home/gazs/Scriptkiddyness/emscripten/emcc
+ISLINUX=1
+LINKER=${EMCC}
+SHARED_LINK=${EMCC}
+C_COMPILER=${EMCC}
+
 # Comment out the next line to create so/dll only
-CREATE_MAIN = 1
+# CREATE_MAIN = 1
 
 ifdef windir
 # Under Win32/MinGW/gcc to add functions compliant to Pascal/stdcall calling
@@ -209,13 +216,22 @@ $(INCHI_LIB_PATHNAME).a: $(INCHI_LIB_OBJS)
 
 else
 
-$(INCHI_LIB_PATHNAME).so$(VERSION): $(INCHI_LIB_OBJS)
+#$(INCHI_LIB_PATHNAME).so$(VERSION): $(INCHI_LIB_OBJS)
+	#$(SHARED_LINK) $(SHARED_LINK_PARM) -o \
+  #$(INCHI_LIB_PATHNAME).so$(VERSION) \
+  #$(INCHI_LIB_OBJS) \
+  #-Wl$(LINUX_MAP)$(LINUX_Z_RELRO),-soname,$(INCHI_LIB_NAME).so$(MAIN_VERSION)
+	#ln -fs $(INCHI_LIB_NAME).so$(VERSION) \
+  #$(INCHI_LIB_PATHNAME).so$(MAIN_VERSION)
+
+# Emscripten-specific change
+$(INCHI_LIB_PATHNAME).js: $(INCHI_LIB_OBJS)
 	$(SHARED_LINK) $(SHARED_LINK_PARM) -o \
-  $(INCHI_LIB_PATHNAME).so$(VERSION) \
-  $(INCHI_LIB_OBJS) \
-  -Wl$(LINUX_MAP)$(LINUX_Z_RELRO),-soname,$(INCHI_LIB_NAME).so$(MAIN_VERSION)
-	ln -fs $(INCHI_LIB_NAME).so$(VERSION) \
-  $(INCHI_LIB_PATHNAME).so$(MAIN_VERSION)
+	$(INCHI_LIB_PATHNAME).js$ \
+	$(INCHI_LIB_OBJS) \
+	-Wl$(LINUX_MAP)$(LINUX_Z_RELRO),-soname,$(INCHI_LIB_NAME).js
+	ln -fs $(INCHI_LIB_NAME).js \
+	$(INCHI_LIB_PATHNAME).js
 
 endif
 
